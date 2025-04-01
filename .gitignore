@@ -5,3 +5,10 @@ target/
 
 # VS Code #
 .vscode/
+
+# Local .terraform directories
+**/.terraform/*
+
+# .tfstate files
+*.tfstate
+*.tfstate.*

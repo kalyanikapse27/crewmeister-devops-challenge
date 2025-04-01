@@ -18,13 +18,13 @@ Welcome to the **Crewmeister DevOps Challenge** repository! This document provid
     - [**Prerequisites**](#prerequisites-1)
       - [**Create VPC \& EKS**](#create-vpc--eks)
     - [**Key Features**](#key-features)
-  - [Kubernetes Deployment (Helm)](#kubernetes-deployment-helm)
-    - [**Features**](#features)
-    - [**Deploying the Application**](#deploying-the-application)
   - [CI Pipeline](#ci-pipeline)
     - [**Pipeline Stages**](#pipeline-stages)
     - [**Required Secrets**](#required-secrets)
-  - [📊 Monitoring \[Optional\]](#-monitoring-optional)
+  - [Kubernetes Deployment (Helm)](#kubernetes-deployment-helm)
+    - [**Features**](#features)
+    - [**Deploying the Application**](#deploying-the-application)
+  - [Monitoring ](#-monitoring-)
     - [**Implemented Tools**](#implemented-tools)
   - [Installtion and Configuration: Monitoring Tools](#installtion-and-configuration-monitoring-tools)
 
@@ -40,7 +40,7 @@ Crewmeister is on the lookout for talented **DevOps Engineers** to help maintain
 ✔️ Deploy it to a **Kubernetes cluster**
 ✔️ Use **Terraform** to provision the infrastructure
 ✔️ Implement a **CI pipeline** for automation
-✔️ Ensure **monitoring** and **logging** are in place
+✔️ Ensure **monitoring** is in place
 
 ---
 
@@ -106,26 +106,6 @@ With this you have create the VPC and EKS Cluster and Connected to cluster as we
 
 ---
 
-## Kubernetes Deployment (Helm)
-
-A **Helm Chart** is used to deploy the Spring Boot application to Kubernetes.
-
-### **Features**
-
-✔️ Structured **Helm templates** for modularity
-✔️ Configurable **values.yaml** for easy customization
-✔️ Supports **rolling updates** and **scalability**
-
-### **Deploying the Application**
-
-```sh
-cd k8s/devops-challenge/helm/
-
-helm upgrade --install challege-app devops-challenge-app/ -n devops-challenge --create-namespace
-```
-
----
-
 ## CI Pipeline
 
 A **GitHub Actions** workflow automates the application lifecycle.
@@ -141,7 +121,27 @@ A **GitHub Actions** workflow automates the application lifecycle.
 
 ---
 
-## 📊 Monitoring
+## Kubernetes Deployment (Helm)
+
+A **Helm Chart** is used to deploy the Spring Boot application to Kubernetes.
+
+### **Features**
+
+✔️ Structured **Helm templates** for modularity
+✔️ Configurable **values.yaml** for easy customization
+✔️ Supports **rolling updates** and **scalability**
+
+### **Deploying the Application**
+
+```sh
+cd k8s/helm/
+
+helm upgrade --install challege-app devops-challenge-app/ -n devops-challenge --create-namespace
+```
+
+---
+
+## Monitoring
 
 The system includes monitoring tools to ensure availability and performance.
 
@@ -151,10 +151,10 @@ The system includes monitoring tools to ensure availability and performance.
 
 ✔️ [JVM Micrometer Dashboard](https://grafana.com/grafana/dashboards/4701-jvm-micrometer/)
 
-Installtion and Configuration: [Monitoring Tools](k8s/devops-challenge/helm/monitoring/README.md)
+  Installtion and Configuration: [Monitoring Tools](k8s/helm/monitoring/README.md)
 ---
 
-## 📊 Screenshots
+## Screenshots
 
 ### **Get Request**
 

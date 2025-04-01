@@ -1,0 +1,6 @@
+.DS_Store
+# Common VCS dirs
+.git/
+.gitignore
+# Various IDEs
+.vscode/

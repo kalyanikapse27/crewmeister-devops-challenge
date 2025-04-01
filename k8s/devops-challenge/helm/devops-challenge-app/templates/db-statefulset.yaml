@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: {{ .Values.db.name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  selector:
+    matchLabels:
+      app: {{ .Values.db.labels }}
+  serviceName: "db"
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.db.labels }}
+    spec:
+      containers:
+        - name: {{ .Values.db.name }}
+          image: {{ .Values.db.image }}
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: MYSQL_ROOT_PASSWORD
+            - name: MYSQL_DATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: db-secret
+                  key: MYSQL_DATABASE
+          resources:
+            requests:
+              memory: {{ .Values.db.resources.requests.memory | quote }}
+              cpu: {{ .Values.db.resources.requests.cpu | quote }}
+            limits:
+              memory: {{ .Values.db.resources.limits.memory | quote }}
+              cpu: {{ .Values.db.resources.limits.cpu | quote }}
+          ports:
+            - containerPort: 3306
+          volumeMounts:
+            - name: mysql-persistent-storage
+              mountPath: /var/lib/mysql
+  volumeClaimTemplates:
+    - metadata:
+        name: mysql-persistent-storage
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: {{ .Values.db.storage.size }}
+        storageClassName: {{ .Values.db.storage.storageClassName | quote }}

@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ .Values.db.storage.name }}
+spec:
+  capacity:
+    storage: {{ .Values.db.storage.size }}
+  accessModes:
+    - ReadWriteOnce
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: {{ .Values.db.storage.storageClassName | quote }} # Matches the PVC StorageClass
+  hostPath:
+    path: /mnt/data

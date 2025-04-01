@@ -1,0 +1,43 @@
+app:
+  env:
+    SPRING_DATASOURCE_PASSWORD: dev
+    # here database is the name of mysql application and challenges is spring boot java app database
+    SPRING_DATASOURCE_URL: jdbc:mysql://database:3306/challenge?createDatabaseIfNotExist=true
+    SPRING_DATASOURCE_USERNAME: root
+  image: kalyanikapse432/devops-challenge:latest
+  labels: app
+  name: application
+  port: 8080
+  replicaCount: 2
+  resources:
+    requests:
+      cpu: 500m
+      memory: 512Mi
+    limits:
+      cpu: 1
+      memory: 1Gi
+  service:
+    type: ClusterIP
+    port: 9080
+
+db:
+  image: mysql:8.0
+  labels: db
+  name: database
+  service:
+    port: 3306
+    type: ClusterIP
+  resources:
+    requests:
+      cpu: 500m
+      memory: 512Mi
+    limits:
+      cpu: 1
+      memory: 1Gi
+  storage:
+    name: mysql-pv
+    size: 5Gi
+    storageClassName: gp2
+  env:
+    MYSQL_ROOT_PASSWORD: dev
+    MYSQL_DATABASE: challenge

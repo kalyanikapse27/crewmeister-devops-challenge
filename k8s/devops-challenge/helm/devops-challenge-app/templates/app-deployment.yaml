@@ -1,0 +1,60 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.app.name }}
+  namespace: {{ .Release.Namespace }}
+spec:
+  replicas: {{ .Values.app.replicaCount }}
+  selector:
+    matchLabels:
+      app: {{ .Values.app.labels }}
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.labels }}
+    spec:
+      containers:
+        - name: {{ .Values.app.name }}
+          image: {{ .Values.app.image }}
+          securityContext:
+            capabilities:
+              drop:
+                - ALL
+            allowPrivilegeEscalation: false
+          ports:
+            - containerPort: {{ .Values.app.port }}
+          env:
+            - name: SPRING_DATASOURCE_URL
+              value: {{ .Values.app.env.SPRING_DATASOURCE_URL }}
+            - name: SPRING_DATASOURCE_USERNAME
+              value: {{ .Values.app.env.SPRING_DATASOURCE_USERNAME }}
+            - name: SPRING_DATASOURCE_PASSWORD
+              value: {{ .Values.app.env.SPRING_DATASOURCE_PASSWORD }}
+          resources:
+            requests:
+              memory: {{ .Values.app.resources.requests.memory | quote }}
+              cpu: {{ .Values.app.resources.requests.cpu | quote }}
+            limits:
+              memory: {{ .Values.app.resources.limits.memory | quote }}
+              cpu: {{ .Values.app.resources.limits.cpu | quote }}
+          livenessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /actuator/health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+      securityContext:
+        runAsUser: 1000
+        runAsGroup: 3000
+        fsGroup: 2000

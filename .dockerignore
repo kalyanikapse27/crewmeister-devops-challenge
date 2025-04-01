@@ -1,0 +1,13 @@
+# Ignore build directory
+target/
+build/
+
+# Ignore IDE related files
+.vscode/
+
+
+# Ignore Helm chart directory
+helm/
+
+# Ignore K8s configuration files
+k8s/

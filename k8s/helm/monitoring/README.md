@@ -14,7 +14,7 @@ helm repo update
 ```
 Install Prometheus in the `monitoring` namespace:
 ```sh
-helm install prometheus prometheus-community/prometheus --namespace monitoring
+helm upgrade --install prometheus prometheus-community/prometheus --namespace monitoring --set server.persistentVolume.enabled=false --set alertmanager.enabled=false
 ```
 Verify the installation:
 ```sh
